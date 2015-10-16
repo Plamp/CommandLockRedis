@@ -21,7 +21,8 @@ class CommandLockRedis {
      *
      * @return bool
      */
-    public function createLock(string $name, integer $expirationTime = 3600) {
+    public function createLock(string $name, $expirationTime = 3600) {
+        $expirationTime = intval($expirationTime);
         if(!$this->checkLock($name)) {
             return $this->redis->set($name, 'LOCK', $expirationTime);
         } else {

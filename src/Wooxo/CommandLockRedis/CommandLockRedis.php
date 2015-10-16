@@ -20,8 +20,8 @@ class CommandLockRedis {
     public static function createLock($name, $expirationTime = 3600) {
         $expirationTime = intval($expirationTime);
         if(!self::checkLock($name)) {
-            $key =Redis::connection()->set($name, 'LOCK');
-            Redis::connection()->expire($name, $expirationTime);
+            $key =Redis::connection()->set('lock_'.$name, 'LOCK');
+            Redis::connection()->expire('lock_'.$name, $expirationTime);
             return $key;
         } else {
             return false;
@@ -36,7 +36,7 @@ class CommandLockRedis {
      * @return bool
      */
     public static function checkLock($name) {
-        if(Redis::connection()->get($name)) {
+        if(Redis::connection()->get('lock_'.$name)) {
             return true;
         } else {
             return false;
@@ -51,7 +51,7 @@ class CommandLockRedis {
      */
     public static function deleteLock($name) {
         if(self::checkLock($name)) {
-            return Redis::connection()->del($name);
+            return Redis::connection()->del('lock_'.$name);
         } else {
             return false;
         }

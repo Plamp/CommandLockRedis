@@ -1,0 +1,24 @@
+{
+    "name": "wooxo/command-lock-redis",
+    "type": "library",
+    "description": "'Lock system' for your command task (Laravel 4.2)",
+    "authors": [
+        {
+          "name": "Wooxo SA",
+          "email": "dev@wooxo.fr"
+        }
+    ],
+    "license": "MIT",
+    "keywords": ["lock", "cron", "command", "redis"],
+    "homepage": "https://github.com/wooxo/CommandLockRedis",
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Wooxo\\CommandLockRedis": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

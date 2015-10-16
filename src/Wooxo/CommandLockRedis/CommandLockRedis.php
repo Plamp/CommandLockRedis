@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Redis;
  */
 class CommandLockRedis {
 
-    private $redis;
-
-    public function __construct() {
-        $this->redis = Redis::connection();
-    }
+    private static $redis;
 
     /**
      * Create a lock
@@ -21,10 +17,12 @@ class CommandLockRedis {
      *
      * @return bool
      */
-    public function createLock(string $name, $expirationTime = 3600) {
+    public static function createLock($name, $expirationTime = 3600) {
         $expirationTime = intval($expirationTime);
-        if(!$this->checkLock($name)) {
-            return $this->redis->set($name, 'LOCK', $expirationTime);
+        if(!self::checkLock($name)) {
+            $key =Redis::connection()->set($name, 'LOCK');
+            Redis::connection()->expire($name, $expirationTime);
+            return $key;
         } else {
             return false;
         }
@@ -37,8 +35,8 @@ class CommandLockRedis {
      *
      * @return bool
      */
-    public function checkLock(string $name) {
-        if($this->redis->get($name)) {
+    public static function checkLock($name) {
+        if(Redis::connection()->get($name)) {
             return true;
         } else {
             return false;
@@ -51,9 +49,9 @@ class CommandLockRedis {
      *
      * @return bool
      */
-    public function deleteLock(string $name) {
-        if($this->checkLock($name)) {
-            return $this->redis->delete($name);
+    public static function deleteLock($name) {
+        if(self::checkLock($name)) {
+            return Redis::connection()->del($name);
         } else {
             return false;
         }

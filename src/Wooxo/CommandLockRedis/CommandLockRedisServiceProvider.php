@@ -19,8 +19,8 @@ class CommandLockRedisServiceProvider extends ServiceProvider {
 		$this->package('wooxo/command-lock-redis');
 		$this->app->booting(function()
 		{
-			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-			$loader->alias('CommandLockRedis', 'Wooxo\CommandLockRedis\CommandLockRedis');
+            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader->alias('CommandLockRedis', 'Wooxo\CommandLockRedis\CommandLockRedis');
 		});
 	}
 

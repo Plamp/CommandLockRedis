@@ -1,4 +1,5 @@
 <?php namespace Wooxo\CommandLockRedis;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 class CommandLockRedisServiceProvider extends ServiceProvider {
 
@@ -16,10 +17,10 @@ class CommandLockRedisServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('wooxo/command-lock-redis');
+		$this->publishes(['wooxo/command-lock-redis']);
 		$this->app->booting(function()
 		{
-            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+            $loader = AliasLoader::getInstance();
             $loader->alias('CommandLockRedis', 'Wooxo\CommandLockRedis\CommandLockRedis');
 		});
 	}
